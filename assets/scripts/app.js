@@ -10,6 +10,12 @@ let hasBonusLife = true;
 
 adjustHealthBars(chosenMaxLife);
 
+function reset() {
+  currentMonsterHealth = chosenMaxLife;
+  currentPlayerHealth = chosenMaxLife;
+  resetGame(chosenMaxLife);
+}
+
 function endRound() {
   const initialPlayerHealth = currentPlayerHealth;
   const playerDamge = dealPlayerDamage(MONSTER_ATTACK_VALUE);
@@ -30,6 +36,10 @@ function endRound() {
   } else if (currentMonsterHealth <= 0 && currentPlayerHealth <= 0) {
     alert('You have a draw!');
   }
+
+  if (currentPlayerHealth <= 0 || currentMonsterHealth <= 0) {
+    reset();
+  }
 }
 
 function attackMonster(mode) {
@@ -39,17 +49,17 @@ function attackMonster(mode) {
   } else if (mode === 'STRONG_ATTACK') {
     maxDamge = STRONG_ATTACK_VALUE;
   }
-  const monsterDamge = dealMonsterDamage(STRONG_ATTACK_VALUE);
+  const monsterDamge = dealMonsterDamage(maxDamge);
   currentMonsterHealth -= monsterDamge;
   endRound();
 }
 
 function strongAttackHandler() {
-  attackMonster('ATTACK');
+  attackMonster('STRONG_ATTACK');
 }
 
 function attackHandler() {
-  attackMonster('STRONG_ATTACK');
+  attackMonster('ATTACK');
 }
 
 function healPlayerHandler() {
